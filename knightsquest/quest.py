@@ -61,7 +61,7 @@ def draw_scenery():
 # Draw the actors and the objectives
 def draw_actors():
     player.draw()
-    for jey in keys_to_collect:
+    for key in keys_to_collect:
         key.draw()
           
 def draw():

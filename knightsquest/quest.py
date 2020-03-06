@@ -30,15 +30,19 @@ def screen_coords(x, y):
 def grid_coords(actor):
     return (round(actor.x / GRID_SIZE), round(actor.y / GRID_SIZE))
 
-# Create an actor for the player
+# Create an actor for the player, create objectives (keys)
 def setup_game():
-    global player
+    global player, keys_to_collect
     player = Actor("player", anchor=("left", "top"))
+    keys_to_collect = []
     for y in range(GRID_HEIGHT):
         for x in range(GRID_WIDTH):
             square = MAP[y][x]
             if square =="P":
                 player.pos = screen_coords(x,y)
+            elif square == "K":
+                key = Actor("key", anchor=("left", "top"), pos=screen_coords(x, y))
+                keys_to_collect.append(key)
 
 def draw_background():
     for y in range (GRID_HEIGHT):
@@ -53,16 +57,19 @@ def draw_scenery():
                 screen.blit("wall", screen_coords(x, y))
             elif square == "D":
                 screen.blit("door", screen_coords(x, y))
-                
+
+# Draw the actors and the objectives
 def draw_actors():
     player.draw()
+    for jey in keys_to_collect:
+        key.draw()
           
 def draw():
     draw_background()
     draw_scenery()
     draw_actors()
     
-#Create a function that will control the player using keys
+# Create a function that will control the player using keys
 def on_key_down(key):
     if key == keys.LEFT:
         move_player(-1, 0)
@@ -72,6 +79,24 @@ def on_key_down(key):
         move_player(1, 0)
     elif key == keys.DOWN:
         move_player(0, 1)
+
+# Create a function that will move the player once a key is pressed
+def move_player(dx, dy):
+    (x, y) = grid_coords(player)
+    x += dx
+    y += dy
+    square = MAP([y][x])
+    if square == "W":
+        return
+    elif square == "D":
+        if len(keys_to_collect) > 0:
+            return
+    for key in keys_to_collect:
+        (key_x, key_y) = grid_coords(key)
+        if x == key_x and y == key_y:
+            keys_to_collect.remove(key)
+            break
+    player.pos = screen_coords(x, y)
 
 setup_game()
 

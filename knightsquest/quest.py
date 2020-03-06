@@ -26,6 +26,10 @@ MAP = ["WWWWWWWWWWWWWWWW",
 def screen_coords(x, y):
     return (x * GRID_SIZE, y * GRID_SIZE)
 
+# adding a utility function to locate the actor-player
+def grid_coords(actor):
+    return (round(actor.x / GRID_SIZE), round(actor.y / GRID_SIZE))
+
 # Create an actor for the player
 def setup_game():
     global player
@@ -57,6 +61,17 @@ def draw():
     draw_background()
     draw_scenery()
     draw_actors()
+    
+#Create a function that will control the player using keys
+def on_key_down(key):
+    if key == keys.LEFT:
+        move_player(-1, 0)
+    elif key == keys.UP:
+        move_player(0, -1)
+    elif key == keys.RIGHT:
+        move_player(1, 0)
+    elif key == keys.DOWN:
+        move_player(0, 1)
 
 setup_game()
 

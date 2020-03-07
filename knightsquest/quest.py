@@ -10,7 +10,7 @@ GRID_SIZE = 50
 # Guard movement
 GUARD_MOVE_INTERVAL = 0.5
 # Player movement
-PLAYER_MOVE_INTERVAL = 0.2
+PLAYER_MOVE_INTERVAL = 0.1
 # Randomizing background tiles for realism
 BACKGROUND_SEED = 123456
 
@@ -152,8 +152,8 @@ def move_player(dx, dy):
         if x == key_x and y == key_y:
             keys_to_collect.remove(key)
             break
-        # adding after creating the animation for player movement
-        animate(player, pos=screen_coords(x, y), duration=PLAYER_MOVE_INTERVAL)
+    # adding after creating the animation for player movement
+    animate(player, pos=screen_coords(x, y), duration=PLAYER_MOVE_INTERVAL)
     #player.pos = screen_coords(x, y)
     
 # Create a function that will move the guards, adding difficulty to the game

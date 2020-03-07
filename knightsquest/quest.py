@@ -10,7 +10,7 @@ GRID_SIZE = 50
 # Guard movement
 GUARD_MOVE_INTERVAL = 0.5
 # Player movement
-PLAYER_MOVE_INTERVAL = 0.1
+PLAYER_MOVE_INTERVAL = 0.2
 # Randomizing background tiles for realism
 BACKGROUND_SEED = 123456
 
@@ -80,7 +80,7 @@ def draw_scenery():
             square = MAP[y][x]
             if square == "W":
                 screen.blit("wall", screen_coords(x, y))
-            elif square == "D":
+            elif square == "D" and len(keys_to_collect) > 0:
                 screen.blit("door", screen_coords(x, y))
 
 # Draw the actors and the objectives
@@ -153,9 +153,20 @@ def move_player(dx, dy):
             keys_to_collect.remove(key)
             break
     # adding after creating the animation for player movement
-    animate(player, pos=screen_coords(x, y), duration=PLAYER_MOVE_INTERVAL)
-    #player.pos = screen_coords(x, y)
-    
+    animate(player, pos=screen_coords(x, y), duration=PLAYER_MOVE_INTERVAL,
+            on_finished=repeat_player_move)
+
+# Create the function to allow a user to keep moving while a key is pressed
+def repeat_player_move():
+    if keyboard.left:
+        move_player(-1, 0)
+    elif keyboard.right:
+        move_player(1, 0)
+    elif keyboard.up:
+        move_player(0, -1)
+    elif keyboard.down:
+        move_player(0, 1)
+        
 # Create a function that will move the guards, adding difficulty to the game
 def move_guard(guard):
     global game_over

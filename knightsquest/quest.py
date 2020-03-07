@@ -3,8 +3,8 @@ import pgzrun
 import random
 
 # Create the initial window and grid
-GRID_WIDTH = 16
-GRID_HEIGHT = 12
+GRID_WIDTH = 25
+GRID_HEIGHT = 15
 GRID_SIZE = 50
 
 # Guard movement
@@ -18,18 +18,21 @@ WIDTH = GRID_WIDTH * GRID_SIZE
 HEIGHT = GRID_HEIGHT * GRID_SIZE
 
 # Draw the map
-MAP = ["WWWWWWWWWWWWWWWW",
-       "W              W",
-       "W              W",
-       "W  W  KG       W",
-       "W  WWWWWWWWWW  W",
-       "W              W",
-       "W      P       W",
-       "W  WWWWWWWWWW  W",
-       "W        GK W  W",
-       "W              W",
-       "W              D",
-       "WWWWWWWWWWWWWWWW"]
+MAP = ["WWWWWWWWWWWWWWWWWWWWWWWWW",
+       "W     W         W       D",
+       "W                  W    W",
+       "W  W G    K        W    W",
+       "W  WWWWWWWWWWWWWWWWW    W",
+       "W                       W",
+       "W    WWWWW    WWWWWW    W",
+       "W    W        W   KW    W",
+       "W    WK      GW    W    W",
+       "W    WW       W G  W    W",
+       "W                  W    W",
+       "WWWWWWWW               WW",
+       "WK   G                  W",
+       "W                 W    PW",
+       "WWWWWWWWWWWWWWWWWWWWWWWWW",]
 # Draw the floor of the dungeon
 def screen_coords(x, y):
     return (x * GRID_SIZE, y * GRID_SIZE)

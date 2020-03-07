@@ -6,6 +6,9 @@ GRID_WIDTH = 16
 GRID_HEIGHT = 12
 GRID_SIZE = 50
 
+# Guard movement
+GUARD_MOVE_INTERVAL = 0.5
+
 WIDTH = GRID_WIDTH * GRID_SIZE
 HEIGHT = GRID_HEIGHT * GRID_SIZE
 
@@ -68,6 +71,8 @@ def draw_actors():
     player.draw()
     for key in keys_to_collect:
         key.draw()
+    for guard in guards:
+        guard.draw()
 
 # Create a Game Over sign that appears once the objective is complete
 def draw_game_over():
@@ -115,7 +120,34 @@ def move_player(dx, dy):
             keys_to_collect.remove(key)
             break
     player.pos = screen_coords(x, y)
+    
+# Create a function that will move the guards, adding difficulty to the game
+def move_guard(guard):
+    global game_over
+    if game_over:
+        return
+    (player_x, player_y) = grid_coords(player)
+    (guard_x, guard_y) = grid_coords(guard)
+    if player_x > guard_x and MAP[guard_y][guard_x + 1] != "W":
+        guard_x += 1
+    elif player_x < guard_x and MAP[guard_y][guard_x - 1] != "W":
+        guard_x -= 1
+    elif player_y > guard_y and MAP[guard_y + 1][guard_x] != "W":
+        guard_y += 1
+    elif player_y < guard_y and MAP[guard_y -1][guard_x] != "W":
+        guard_y -= 1
+    
+    guard.pos = screen_coords(guard_x, guard_y)
+    if guard_x == player_x and guard_y == player_y:
+        game_over = True
+
+def move_guards():
+    for guard in guards:
+        move_guard(guard)
 
 setup_game()
+
+# Schedule the movement of the guards
+clock.schedule_interval(move_guards, GUARD_MOVE_INTERVAL)
 
 pgzrun.go()

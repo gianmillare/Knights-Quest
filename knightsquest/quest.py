@@ -35,8 +35,9 @@ def grid_coords(actor):
 
 # Create an actor for the player, create objectives (keys)
 def setup_game():
-    global game_over, player, keys_to_collect, guards
+    global game_over, player_won, player, keys_to_collect, guards
     game_over = False
+    player_won = False
     player = Actor("player", anchor=("left", "top"))
     keys_to_collect = []
     guards = []
@@ -79,6 +80,12 @@ def draw_game_over():
     screen_middle = (WIDTH / 2, HEIGHT / 2)
     screen.draw.text("GAME OVER", midbottom=screen_middle, 
                      fontsize=GRID_SIZE, color="cyan", owidth=1)
+    if player_won:
+        screen.draw.text("YOU WON!", midtop=screen_middle,
+                         fontsize=GRID_SIZE, color="green", owidth=1)
+    else:
+        screen.draw.text("YOU LOST!", midtop=screen_middle,
+                         fontsize=GRID_SIZE, color="red", owidth=1)
     
 def draw():
     draw_background()
@@ -86,7 +93,9 @@ def draw():
     draw_actors()
     if game_over:
         draw_game_over()
-    
+
+# Create a function to enable restarting the game
+
 # Create a function that will control the player using keys
 def on_key_down(key):
     if key == keys.LEFT:
@@ -100,7 +109,7 @@ def on_key_down(key):
 
 # Create a function that will move the player once a key is pressed
 def move_player(dx, dy):
-    global game_over
+    global game_over, player_won
     if game_over:
         return
     (x, y) = grid_coords(player)
@@ -114,6 +123,7 @@ def move_player(dx, dy):
             return
         else:
             game_over = True
+            player_won = True
     for key in keys_to_collect:
         (key_x, key_y) = grid_coords(key)
         if x == key_x and y == key_y:

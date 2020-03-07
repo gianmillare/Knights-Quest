@@ -1,5 +1,6 @@
 # Import the dependencies
 import pgzrun
+import random
 
 # Create the initial window and grid
 GRID_WIDTH = 16
@@ -10,6 +11,8 @@ GRID_SIZE = 50
 GUARD_MOVE_INTERVAL = 0.5
 # Player movement
 PLAYER_MOVE_INTERVAL = 0.2
+# Randomizing background tiles for realism
+BACKGROUND_SEED = 123456
 
 WIDTH = GRID_WIDTH * GRID_SIZE
 HEIGHT = GRID_HEIGHT * GRID_SIZE
@@ -56,9 +59,20 @@ def setup_game():
                 guards.append(guard)
 
 def draw_background():
+    random.seed(BACKGROUND_SEED)
     for y in range (GRID_HEIGHT):
         for x in range(GRID_WIDTH):
-            screen.blit("floor1", screen_coords(x, y))
+            if x % 2== y % 2:
+                screen.blit("floor1", screen_coords(x, y))
+            else:
+                screen.blit("floor2", screen_coords(x, y))
+            
+            # Start the draw loop to make cracks in the background
+            n = random.randint(0, 99)
+            if n < 5:
+                screen.blit("crack1", screen_coords(x, y))
+            elif n < 10:
+                screen.blit("crack2", screen_coords(x, y))
 
 def draw_scenery():
     for y in range(GRID_HEIGHT):

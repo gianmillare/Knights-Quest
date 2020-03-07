@@ -87,6 +87,10 @@ def draw_game_over():
         screen.draw.text("YOU LOST!", midtop=screen_middle,
                          fontsize=GRID_SIZE, color="red", owidth=1)
     
+    # Create a message for the player to restart the game using the spacebar
+    screen.draw.text("Press SPACE to play again", midtop=(WIDTH / 2, HEIGHT / 2 + GRID_SIZE),
+                     fontsize=GRID_SIZE / 2, color="cyan", owidth=1)
+        
 def draw():
     draw_background()
     draw_scenery()
@@ -95,7 +99,10 @@ def draw():
         draw_game_over()
 
 # Create a function to enable restarting the game
-
+def on_key_up(key):
+    if key == keys.SPACE and game_over:
+        setup_game()
+        
 # Create a function that will control the player using keys
 def on_key_down(key):
     if key == keys.LEFT:

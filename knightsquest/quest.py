@@ -8,6 +8,8 @@ GRID_SIZE = 50
 
 # Guard movement
 GUARD_MOVE_INTERVAL = 0.5
+# Player movement
+PLAYER_MOVE_INTERVAL = 0.2
 
 WIDTH = GRID_WIDTH * GRID_SIZE
 HEIGHT = GRID_HEIGHT * GRID_SIZE
@@ -136,7 +138,9 @@ def move_player(dx, dy):
         if x == key_x and y == key_y:
             keys_to_collect.remove(key)
             break
-    player.pos = screen_coords(x, y)
+        # adding after creating the animation for player movement
+        animate(player, pos=screen_coords(x, y), duration=PLAYER_MOVE_INTERVAL)
+    #player.pos = screen_coords(x, y)
     
 # Create a function that will move the guards, adding difficulty to the game
 def move_guard(guard):
@@ -154,7 +158,9 @@ def move_guard(guard):
     elif player_y < guard_y and MAP[guard_y -1][guard_x] != "W":
         guard_y -= 1
     
-    guard.pos = screen_coords(guard_x, guard_y)
+    # animate the guards to move freely across the map
+    animate(guard, pos=screen_coords(guard_x, guard_y), duration=GUARD_MOVE_INTERVAL)
+    #guard.pos = screen_coords(guard_x, guard_y)
     if guard_x == player_x and guard_y == player_y:
         game_over = True
 

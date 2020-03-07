@@ -32,10 +32,11 @@ def grid_coords(actor):
 
 # Create an actor for the player, create objectives (keys)
 def setup_game():
-    global game_over, player, keys_to_collect
+    global game_over, player, keys_to_collect, guards
     game_over = False
     player = Actor("player", anchor=("left", "top"))
     keys_to_collect = []
+    guards = []
     for y in range(GRID_HEIGHT):
         for x in range(GRID_WIDTH):
             square = MAP[y][x]
@@ -44,6 +45,9 @@ def setup_game():
             elif square == "K":
                 key = Actor("key", anchor=("left", "top"), pos=screen_coords(x, y))
                 keys_to_collect.append(key)
+            elif square == "G":
+                guard = Actor("guard", anchor=("left", "top"), pos=screen_coords(x, y))
+                guards.append(guard)
 
 def draw_background():
     for y in range (GRID_HEIGHT):

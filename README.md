@@ -11,4 +11,9 @@ This introductory gaming project is from "Beginner's Step-by-Step Coding Course"
 
 ### Preview
 
-![](img/???.png)
+![](img/image1.png)
+<br>
+![](img/image2.png)
+<br>
+![](img/image3.png)
+<br>
